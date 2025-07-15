@@ -1,0 +1,23 @@
+- name: Install Tomcat on Frontend
+  hosts: group_frontend
+  become: true
+  tasks:
+    - name: Install Tomcat
+      apt:
+        name: tomcat10
+        state: present
+        update_cache: yes
+
+- name: Install tools on Backend
+  hosts: group_backend
+  become: true
+  tasks:
+    - name: Install Git
+      yum:
+        name: git
+        state: present
+
+    - name: Install jq
+      yum:
+        name: jq
+        state: latest

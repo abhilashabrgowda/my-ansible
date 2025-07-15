@@ -1,0 +1,28 @@
+- name: Install and start Tomcat9 on Ubuntu EC2 instance
+  hosts: tag_ansible_user_ubuntu
+  become: true
+
+  tasks:
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+
+    - name: Install Tomcat10
+      apt:
+        name: tomcat10
+        state: present
+
+    - name: Start and enable Tomcat9 service
+      service:
+        name: tomcat10
+        state: started
+        enabled: true
+
+    - name: Check Tomcat service status
+      command: systemctl status tomcat10
+      register: tomcat_status
+
+    - name: Print Tomcat status
+      debug:
+        var: tomcat_status.stdout_lines
+

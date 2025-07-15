@@ -1,0 +1,26 @@
+#dynamic_inventory
+
+plugin: amazon.aws.aws_ec2
+
+regions:
+  - us-east-1
+
+filters:
+  instance-state-name: running
+  tag:ansible_user:
+    - ec2-user
+    - ubuntu
+
+hostnames:
+  - ip-address
+
+compose:
+  ansible_user: tags.ansible_user
+
+keyed_groups:
+  - key: tags.ansible_user
+    prefix: tag_ansible_user
+
+  - key: tags.group
+    prefix: group
+

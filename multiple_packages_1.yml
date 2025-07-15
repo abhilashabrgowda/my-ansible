@@ -1,0 +1,16 @@
+- name: Demo
+  hosts: group_frontend
+  become: true
+  tasks:
+    - name: Install common packages
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - git
+        - nginx
+        - memcached
+        - jq
+        - curl
+        - wget

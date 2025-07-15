@@ -1,0 +1,20 @@
+- name: Install and start NGINX on Red Hat EC2 instance
+  hosts: tag_ansible_user_ec2_user
+  become: true
+  tasks:
+
+    - name: Create a directory /home/ec2-user/nginx
+      file:
+        path: /home/ec2-user/nginx
+        state: directory
+
+    - name: Install nginx using yum
+      yum:
+        name: nginx
+        state: latest
+
+    - name: Start and enable nginx service
+      service:
+        name: nginx
+        state: started
+        enabled: true
