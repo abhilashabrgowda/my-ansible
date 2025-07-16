@@ -1,0 +1,26 @@
+- name: Run Task only if previous one succeeds
+  hosts: tag_ansible_user_ubuntu:tag_ansible_user_ec2_user
+  become: true
+  tasks:
+
+    - name: Install multiple packages on Ubuntu
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      when:
+        - ansible_pkg_mgr == "apt"
+        - ansible_distribution == "Ubuntu"
+      loop:
+        - git
+        - nginx
+        - memcached
+        - jq
+        - curl
+        - wget
+      register: result
+
+    - name: Print debug message
+      debug:
+        var: result
+      when: result is changed

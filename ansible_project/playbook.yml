@@ -1,0 +1,10 @@
+- name: Install required packages based on OS
+  hosts: tag_ansible_user_ubuntu:tag_ansible_user_ec2_user
+  become: true
+  vars:
+    ubuntu_packages: "{{ ubuntu_pkg | default(['java', 'git', 'wget']) }}"
+    redhat_packages: "{{ redhat_pkg | default(['curl', 'python3', 'tomcat']) }}"
+  vars_files:
+    - secrets.yml
+  roles:
+    - install_packages

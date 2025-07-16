@@ -1,0 +1,23 @@
+# tasks file for install_packages
+
+- name: Include secrets from vault
+  include_vars: vars/secrets.yml
+
+- name: Install packages on Ubuntu
+  apt:
+    name: "{{ item }}"
+    state: present
+    update_cache: yes
+  loop: "{{ ubuntu_packages }}"
+  when: ansible_distribution == "Ubuntu"
+
+- name: Install packages on Red Hat
+  yum:
+    name: "{{ item }}"
+    state: present
+  loop: "{{ redhat_packages }}"
+  when: ansible_distribution == "RedHat"
+
+- name: Print the secret password from vault
+  debug:
+    msg: "Vault password is: {{ secret_password }}"

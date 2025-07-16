@@ -1,0 +1,20 @@
+- name: using tags to run or skip specific tasks
+  hosts: tag_ansible_user_ubuntu
+  tasks:
+    - name: Install git on Ubuntu
+      become: yes
+      apt:
+        name: git
+        state: present
+        update_cache: yes
+      tags:
+        - git_pkg
+
+    - name: Install curl on ubuntu
+      become: yes
+      apt:
+        name: curl
+        state: present
+        update_cache: yes
+      tags:
+        - curl_pkg

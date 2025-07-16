@@ -1,0 +1,33 @@
+- name: Install common packages on both Ubuntu and RedHat by referring facts
+  hosts: tag_ansible_user_ubuntu:tag_ansible_user_ec2_user
+  become: true
+  tasks:
+
+    - name: Install packages on Ubuntu
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_pkg_mgr == "apt"
+      loop:
+        - git
+        - nginx
+        - memcached
+        - jq
+        - curl
+        - wget
+
+    - name: Install packages on RedHat
+      yum:
+        name: "{{ item }}"
+        state: present
+      when: ansible_distribution == "RedHat"
+      loop:
+        - git
+        - nginx
+        - memcached
+        - jq
+        - curl
+        - wget
